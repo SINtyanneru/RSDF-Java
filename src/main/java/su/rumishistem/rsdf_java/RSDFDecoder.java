@@ -116,6 +116,11 @@ public class RSDFDecoder {
 			byte[] b = in.readNBytes(8);
 			long i64 = ((long) (b[0] & 0xFF) << 56) | ((long) (b[1] & 0xFF) << 48) | ((long) (b[2] & 0xFF) << 40) | ((long) (b[3] & 0xFF) << 32) | ((long) (b[4] & 0xFF) << 24) | ((long) (b[5] & 0xFF) << 16) | ((long) (b[6] & 0xFF) << 8) | (long) (b[7] & 0xFF);
 			return i64;
+		} else if (type == 0x10) {
+			//バイナリ
+			int binary_length = bytes_to_int(in.readNBytes(4));
+			byte[] binary = in.readNBytes(binary_length);
+			return binary;
 		} else {
 			throw new RuntimeException("非対応の型");
 		}

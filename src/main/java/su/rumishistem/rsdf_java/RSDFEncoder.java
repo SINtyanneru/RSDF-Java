@@ -116,6 +116,11 @@ public class RSDFEncoder {
 			//64bit数値
 			baos.write(0x07);
 			baos.write(long_to_byte(number));
+		} else if (value instanceof byte[] binary) {
+			//バイナリ
+			baos.write(0x10);
+			baos.write(int_to_byte(binary.length));
+			baos.write(binary);
 		} else {
 			throw new RuntimeException("非対応の型:" + value.getClass().getTypeName());
 		}
