@@ -28,12 +28,6 @@ public class RSDFEncoder {
 			throw new RuntimeException("ルートに入れれる型は配列か辞書のみです。");
 		}
 
-		/*StringBuilder sb = new StringBuilder();
-		for (byte b:baos.toByteArray()) {
-			sb.append(String.format("%02X ", b));
-		}
-		System.out.println(sb.toString());*/
-
 		return baos.toByteArray();
 	}
 
@@ -46,6 +40,8 @@ public class RSDFEncoder {
 			if (value instanceof Map) {
 				//辞書
 				baos.write(encode_dict((Map<String, ?>) value));
+			} else if (value instanceof byte[] binary) {
+				baos.write(encode_value(binary));
 			} else if (value.getClass().isArray()) {
 				//配列
 				baos.write(encode_array((Object[]) value));
@@ -77,7 +73,9 @@ public class RSDFEncoder {
 				continue;
 			}
 
-			if (value.getClass().isArray()) {
+			if (value instanceof byte[] binary) {
+				baos.write(encode_value(binary));
+			} else if (value.getClass().isArray()) {
 				baos.write(encode_array((Object[]) value));
 			} else if (value instanceof List<?>) {
 				baos.write(encode_array(((List<?>)value).toArray()));
