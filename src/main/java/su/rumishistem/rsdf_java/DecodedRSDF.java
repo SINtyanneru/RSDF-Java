@@ -48,7 +48,7 @@ public class DecodedRSDF {
 			Object value = root_dict.get(name);
 			if (value == null) {
 				if (allow_null == false) {
-					throw new RuntimeException(name + "で許可されていないNullが入りました。");
+					throw new RSDFNullCastException(name);
 				}
 				continue;
 			}
